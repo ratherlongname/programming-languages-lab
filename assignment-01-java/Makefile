@@ -8,9 +8,9 @@ list:
 	@echo "\t list \t\t Show this list of all available targets"
 	@echo "\t clean \t\t Clean all temporary files"
 
-answer-01: SockMatchingRobot.java
+answer-01: answer-01/SockMatchingRobot.java
 	javac $^
-	java SockMatchingRobot
+	cd answer-01 && java SockMatchingRobot
 
 clean:
 	-rm *.class
