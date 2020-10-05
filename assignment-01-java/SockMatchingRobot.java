@@ -256,13 +256,11 @@ class ShelfManager extends Thread {
             }
 
             // Put sock pair in shelf
-            synchronized (all_shelves) {
-                all_shelves.get(picked_sock_pair.left_sock.colour).add(picked_sock_pair);
-                System.out.println("(" + this.picked_sock_pair.left_sock.colour + "-"
-                        + this.picked_sock_pair.left_sock.unique_id + ", " + this.picked_sock_pair.right_sock.colour
-                        + "-" + this.picked_sock_pair.right_sock.unique_id + ") :\t " + getName() + " \t\t --> \t "
-                        + picked_sock_pair.left_sock.colour + " Shelf");
-            }
+            all_shelves.get(picked_sock_pair.left_sock.colour).add(picked_sock_pair);
+            System.out.println("(" + this.picked_sock_pair.left_sock.colour + "-"
+                    + this.picked_sock_pair.left_sock.unique_id + ", " + this.picked_sock_pair.right_sock.colour
+                    + "-" + this.picked_sock_pair.right_sock.unique_id + ") :\t " + getName() + " \t\t --> \t "
+                    + picked_sock_pair.left_sock.colour + " Shelf");
             picked_sock_pair = null;
         }
     }
