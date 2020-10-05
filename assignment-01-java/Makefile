@@ -13,4 +13,4 @@ answer-01: answer-01/SockMatchingRobot.java
 	cd answer-01 && java SockMatchingRobot
 
 clean:
-	-rm *.class
+	-rm */*.class
