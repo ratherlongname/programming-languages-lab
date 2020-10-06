@@ -1,0 +1,6 @@
+Roll_No		Name		Mail_id		Marks		Teacher		
+174101012		Abdul Najim		abdul12@iitg.ac.in		29		TA2		
+174101033		Subhra Shivani		subhra33@iitg.ac.in		48		CC		
+174101035		Savnam Khatam		savanam35@iig.ac.in		88		TA1		
+174101055		Amit Kumar Sharma		amit55@iitg.ac.in		75		TA1		
+174101058		Kunal Kishore		kunal58@iitg.ac.in		67		TA2		
