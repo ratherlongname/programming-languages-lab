@@ -4,6 +4,8 @@ import java.util.concurrent.TimeUnit;
 
 public class SockMatchingRobot {
     public static void main(String[] args) throws InterruptedException {
+        System.out.println("Sock Matching Robot");
+        System.out.println("===================");
         // Configuration variables
         Integer num_socks = 16;
         Integer num_robot_arms = 2;
@@ -76,6 +78,7 @@ public class SockMatchingRobot {
 }
 
 class Sock {
+    // Each sock has colour and a unique id
     String colour;
     Integer unique_id;
 
@@ -86,6 +89,7 @@ class Sock {
 }
 
 class SockPair {
+    // Each sock pair contains 2 socks
     Sock left_sock;
     Sock right_sock;
 
@@ -144,9 +148,9 @@ class RobotArm extends Thread {
 }
 
 class MatchingMachine extends Thread {
-    Vector<Sock> matching_buffer;
-    Vector<SockPair> shelf_manager_buffer;
-    SockPair matched_sock_pair = null;
+    Vector<Sock> matching_buffer;    // Pick socks from here
+    Vector<SockPair> shelf_manager_buffer;    // Put sock pairs here
+    SockPair matched_sock_pair = null;    // Sock pair currently picked up
 
     MatchingMachine(Vector<Sock> matching_buffer, Vector<SockPair> shelf_manager_buffer) {
         this.matching_buffer = matching_buffer;
@@ -217,9 +221,9 @@ class MatchingMachine extends Thread {
 }
 
 class ShelfManager extends Thread {
-    Vector<SockPair> shelf_manager_buffer;
-    HashMap<String, Vector<SockPair>> all_shelves;
-    SockPair picked_sock_pair = null;
+    Vector<SockPair> shelf_manager_buffer;    // Pick sock pair from here
+    HashMap<String, Vector<SockPair>> all_shelves;    // Put sock pairs here
+    SockPair picked_sock_pair = null;    // Sock pair currently in hand
 
     ShelfManager(Vector<SockPair> shelf_manager_buffer, HashMap<String, Vector<SockPair>> all_shelves) {
         this.shelf_manager_buffer = shelf_manager_buffer;
