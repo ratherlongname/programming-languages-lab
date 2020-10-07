@@ -17,5 +17,9 @@ answer-02: answer-02/EvaluationSystem.java
 	javac $^
 	cd answer-02 && java EvaluationSystem
 
+answer-03: answer-03/DifferentCalculator.java
+	javac $^
+	cd answer-03 && java DifferentCalculator
+
 clean:
 	-rm */*.class
