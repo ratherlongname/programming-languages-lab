@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.FocusListener;
 
 public class DifferentCalculator implements ActionListener, FocusListener {
+    String variant;
     JFrame frame;
 
     Timer timer;
@@ -45,7 +46,9 @@ public class DifferentCalculator implements ActionListener, FocusListener {
     JButton divide;
     JButton equals;
 
-    public DifferentCalculator() {
+    public DifferentCalculator(String variant) {
+        this.variant = variant;
+
         UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
         frame = new JFrame("Different Calculator");
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
@@ -102,7 +105,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         nine.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3, false));
         zero.addFocusListener(this);
         zero.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3, false));
-        
+
         number_keys_panel.add(one);
         number_keys_panel.add(two);
         number_keys_panel.add(three);
@@ -152,21 +155,28 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         timer.setRepeats(true);
         timer.start();
 
+        one.requestFocus();
+
         // String test_num = "-0";
         // int conv = Integer.parseInt(test_num);
         // System.out.println("conv is " + conv);
     }
 
     public static void main(String[] args) {
-        new DifferentCalculator();
+        if (!args[0].equals("variant-a") && !args[0].equals("variant-b")) {
+            System.out.println("Usage:");
+            System.out.println("    java DifferentCalculator variant-a \t\t Variant (a) of answer-03");
+            System.out.println("    java DifferentCalculator variant-b \t\t Variant (b) of answer-03");
+            return;
+        }
+
+        System.out.println("Different Calculator");
+        System.out.println("====================");
+        new DifferentCalculator(args[0]);
     }
 
     @Override
     public void focusGained(FocusEvent fe) {
-        if (fe.getSource() == one) {
-            one.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3, true));
-        }
-
         if (fe.getSource() == one) {
             one.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3, true));
         } else if (fe.getSource() == two) {
@@ -198,7 +208,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         } else if (fe.getSource() == equals) {
             equals.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3, true));
         }
-        
+
         return;
     }
 
@@ -243,7 +253,11 @@ public class DifferentCalculator implements ActionListener, FocusListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == timer) {
             System.out.println("Timer event");
-            focus_next_button();
+            if (variant.equals("variant-a")) {
+                focus_next_button_variant_a();
+            } else if (variant.equals("variant-b")) {
+                focus_next_button_variant_b();
+            }
         } else if (ae.getSource() == one || ae.getSource() == two || ae.getSource() == three || ae.getSource() == four
                 || ae.getSource() == five || ae.getSource() == six || ae.getSource() == seven || ae.getSource() == eight
                 || ae.getSource() == nine || ae.getSource() == zero) {
@@ -258,7 +272,43 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         return;
     }
 
-    public void focus_next_button() {
+    public void focus_next_button_variant_a() {
+        if (one.hasFocus()) {
+            two.requestFocus();
+        } else if (two.hasFocus()) {
+            three.requestFocus();
+        } else if (three.hasFocus()) {
+            four.requestFocus();
+        } else if (four.hasFocus()) {
+            five.requestFocus();
+        } else if (five.hasFocus()) {
+            six.requestFocus();
+        } else if (six.hasFocus()) {
+            seven.requestFocus();
+        } else if (seven.hasFocus()) {
+            eight.requestFocus();
+        } else if (eight.hasFocus()) {
+            nine.requestFocus();
+        } else if (nine.hasFocus()) {
+            zero.requestFocus();
+        } else if (zero.hasFocus()) {
+            one.requestFocus();
+        } else if (add.hasFocus()) {
+            subtract.requestFocus();
+        } else if (subtract.hasFocus()) {
+            multiply.requestFocus();
+        } else if (multiply.hasFocus()) {
+            divide.requestFocus();
+        } else if (divide.hasFocus()) {
+            equals.requestFocus();
+        } else if (equals.hasFocus()) {
+            add.requestFocus();
+        }
+
+        return;
+    }
+
+    public void focus_next_button_variant_b() {
         if (one.hasFocus()) {
             two.requestFocus();
         } else if (two.hasFocus()) {
@@ -295,12 +345,24 @@ public class DifferentCalculator implements ActionListener, FocusListener {
     }
 
     public void handle_digit(String digit) {
-        if (operator.equals("")) {
-            operand_1 += digit;
-            calc_label.setText(operand_1);
-        } else {
-            operand_2 += digit;
-            calc_label.setText(operand_1 + " " + operator + " " + operand_2);
+        if (variant.equals("variant-a")) {
+            if (operator.equals("")) {
+                operand_1 = digit;
+                calc_label.setText(operand_1);
+                add.requestFocus();
+            } else {
+                operand_2 = digit;
+                calc_label.setText(operand_1 + " " + operator + " " + operand_2);
+                equals.doClick();
+            }
+        } else if (variant.equals("variant-b")) {
+            if (operator.equals("")) {
+                operand_1 += digit;
+                calc_label.setText(operand_1);
+            } else {
+                operand_2 += digit;
+                calc_label.setText(operand_1 + " " + operator + " " + operand_2);
+            }
         }
 
         return;
@@ -308,7 +370,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
 
     public void handle_operator(String op) {
         if (operand_1.equals("") || operand_1.equals("-") || operand_1.equals("+")) {
-            if (op.equals("-") || op.equals("+")) {
+            if (!variant.equals("variant-a") && (op.equals("-") || op.equals("+"))) {
                 operand_1 = op;
                 calc_label.setText(operand_1);
             }
@@ -318,10 +380,10 @@ public class DifferentCalculator implements ActionListener, FocusListener {
                 calc_label.setText(operand_1 + " " + operator + " ");
             }
         } else if (operand_2.equals("")) {
-            if (op.equals("-") || op.equals("+")) {
+            if (variant.equals("variant-b") && (op.equals("-") || op.equals("+"))) {
                 operand_2 = op;
                 calc_label.setText(operand_1 + " " + operator + " " + operand_2);
-            } else if (op.equals("*") || op.equals("/")) {
+            } else if (!op.equals("=")) {
                 operator = op;
                 calc_label.setText(operand_1 + " " + operator);
             }
@@ -336,34 +398,49 @@ public class DifferentCalculator implements ActionListener, FocusListener {
                 int a = Integer.parseInt(operand_1);
                 int b = Integer.parseInt(operand_2);
                 float result = 0;
-                switch (operator) {
-                    case "+":
-                        result = a + b;
-                        break;
+                String result_str = "";
 
-                    case "-":
-                        result = a - b;
-                        break;
+                if (a == 0 && b == 0 && operator.equals("/")) {
+                    result_str = "0 / 0 is not defined";
+                } else if (b == 0 && operator.equals("/")) {
+                    result_str = "Any number divided by 0 is Infinity";
+                } else {
+                    switch (operator) {
+                        case "+":
+                            result = a + b;
+                            result_str = Float.toString(result);
+                            break;
 
-                    case "*":
-                        result = a * b;
-                        break;
+                        case "-":
+                            result = a - b;
+                            result_str = Float.toString(result);
+                            break;
 
-                    case "/":
-                        result = (float)a / (float)b;
-                        break;
+                        case "*":
+                            result = a * b;
+                            result_str = Float.toString(result);
+                            break;
 
-                    default:
-                        System.out.println("Invalid operator: " + operator);
-                        break;
+                        case "/":
+                            result = (float) a / (float) b;
+                            result_str = Float.toString(result);
+                            break;
+
+                        default:
+                            result_str = "Invalid operator: " + operator;
+                            break;
+                    }
                 }
 
-                calc_label.setText(Float.toString(result));
+                calc_label.setText(result_str);
                 operand_1 = "";
                 operand_2 = "";
                 operator = "";
             }
         }
+
+        if (!op.equals("=") && variant.equals("variant-a"))
+            one.requestFocus();
 
         return;
     }
