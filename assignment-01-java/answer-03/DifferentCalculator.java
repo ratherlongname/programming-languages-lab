@@ -47,13 +47,15 @@ public class DifferentCalculator implements ActionListener, FocusListener {
     JButton equals;
 
     public DifferentCalculator(String variant) {
+        // Stores which variant is running a or b
         this.variant = variant;
 
-        UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
-        frame = new JFrame("Different Calculator");
+        UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE); // Enter and space both press highlighted key
+        frame = new JFrame("Different Calculator"); // Root of window
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         frame.setSize(new Dimension(500, 700));
 
+        // Three main panels of calculator
         display_panel = new JPanel(new GridLayout(1, 1));
         number_keys_panel = new JPanel(new GridLayout(4, 3));
         function_keys_panel = new JPanel(new GridLayout(1, 5));
@@ -61,10 +63,12 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         frame.add(number_keys_panel);
         frame.add(function_keys_panel);
 
+        // Text inside display
         calc_label = new JLabel("");
         calc_label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         display_panel.add(calc_label);
 
+        // Number buttons
         one = new JButton("1");
         two = new JButton("2");
         three = new JButton("3");
@@ -75,6 +79,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         eight = new JButton("8");
         nine = new JButton("9");
         zero = new JButton("0");
+        // Event listeners on buttons
         one.addActionListener(this);
         two.addActionListener(this);
         three.addActionListener(this);
@@ -85,6 +90,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         eight.addActionListener(this);
         nine.addActionListener(this);
         zero.addActionListener(this);
+        // Focus listeners on buttons and modify border
         one.addFocusListener(this);
         one.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3, false));
         two.addFocusListener(this);
@@ -105,7 +111,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         nine.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3, false));
         zero.addFocusListener(this);
         zero.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3, false));
-
+        // Add buttons to panel
         number_keys_panel.add(one);
         number_keys_panel.add(two);
         number_keys_panel.add(three);
@@ -117,16 +123,19 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         number_keys_panel.add(nine);
         number_keys_panel.add(zero);
 
+        // Function buttons
         add = new JButton("+");
         subtract = new JButton("-");
         multiply = new JButton("*");
         divide = new JButton("/");
         equals = new JButton("=");
+        // Event listeners for buttons
         add.addActionListener(this);
         subtract.addActionListener(this);
         multiply.addActionListener(this);
         divide.addActionListener(this);
         equals.addActionListener(this);
+        // Focus listeners on buttons and modify border
         add.addFocusListener(this);
         add.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3, false));
         subtract.addFocusListener(this);
@@ -137,33 +146,33 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         divide.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3, false));
         equals.addFocusListener(this);
         equals.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3, false));
-
+        // Add buttons to panel
         function_keys_panel.add(add);
         function_keys_panel.add(subtract);
         function_keys_panel.add(multiply);
         function_keys_panel.add(divide);
         function_keys_panel.add(equals);
 
+        // Make window visible
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
+        // State of calculator
         operand_1 = "";
         operand_2 = "";
         operator = "";
 
+        // Timer to periodically highlight buttons
         timer = new Timer(800, this);
         timer.setRepeats(true);
         timer.start();
 
+        // Start by highlighting "1"
         one.requestFocus();
-
-        // String test_num = "-0";
-        // int conv = Integer.parseInt(test_num);
-        // System.out.println("conv is " + conv);
     }
 
     public static void main(String[] args) {
-        if (!args[0].equals("variant-a") && !args[0].equals("variant-b")) {
+        if (!args[0].equals("variant-a") && !args[0].equals("variant-b")) { // Check proper usage
             System.out.println("Usage:");
             System.out.println("    java DifferentCalculator variant-a \t\t Variant (a) of answer-03");
             System.out.println("    java DifferentCalculator variant-b \t\t Variant (b) of answer-03");
@@ -172,11 +181,13 @@ public class DifferentCalculator implements ActionListener, FocusListener {
 
         System.out.println("Different Calculator");
         System.out.println("====================");
+        // Start GUI
         new DifferentCalculator(args[0]);
     }
 
     @Override
     public void focusGained(FocusEvent fe) {
+        // Change border to green when button is highlighted
         if (fe.getSource() == one) {
             one.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3, true));
         } else if (fe.getSource() == two) {
@@ -214,6 +225,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
 
     @Override
     public void focusLost(FocusEvent fe) {
+        // Change border to gray when button not in focus
         if (fe.getSource() == one) {
             one.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3, false));
         } else if (fe.getSource() == two) {
@@ -252,6 +264,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == timer) {
+            // Highlight next button on each timer event
             System.out.println("Timer event");
             if (variant.equals("variant-a")) {
                 focus_next_button_variant_a();
@@ -261,10 +274,12 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         } else if (ae.getSource() == one || ae.getSource() == two || ae.getSource() == three || ae.getSource() == four
                 || ae.getSource() == five || ae.getSource() == six || ae.getSource() == seven || ae.getSource() == eight
                 || ae.getSource() == nine || ae.getSource() == zero) {
+            // Handle if number button is pressed
             System.out.println(ae.getActionCommand() + " pressed");
             handle_digit(ae.getActionCommand());
         } else if (ae.getSource() == add || ae.getSource() == subtract || ae.getSource() == multiply
                 || ae.getSource() == divide || ae.getSource() == equals) {
+            // Handle if function button is pressed
             System.out.println(ae.getActionCommand() + " pressed");
             handle_operator(ae.getActionCommand());
         }
@@ -273,6 +288,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
     }
 
     public void focus_next_button_variant_a() {
+        // Rotate focus between number buttons
         if (one.hasFocus()) {
             two.requestFocus();
         } else if (two.hasFocus()) {
@@ -294,6 +310,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
         } else if (zero.hasFocus()) {
             one.requestFocus();
         } else if (add.hasFocus()) {
+            // Rotate focus between function buttons
             subtract.requestFocus();
         } else if (subtract.hasFocus()) {
             multiply.requestFocus();
@@ -309,6 +326,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
     }
 
     public void focus_next_button_variant_b() {
+        // Rotate focus between all buttons
         if (one.hasFocus()) {
             two.requestFocus();
         } else if (two.hasFocus()) {
@@ -346,6 +364,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
 
     public void handle_digit(String digit) {
         if (variant.equals("variant-a")) {
+            // Accept single digit in variant a
             if (operator.equals("")) {
                 operand_1 = digit;
                 calc_label.setText(operand_1);
@@ -356,6 +375,7 @@ public class DifferentCalculator implements ActionListener, FocusListener {
                 equals.doClick();
             }
         } else if (variant.equals("variant-b")) {
+            // Accept multiple digits in variant b
             if (operator.equals("")) {
                 operand_1 += digit;
                 calc_label.setText(operand_1);
@@ -371,30 +391,30 @@ public class DifferentCalculator implements ActionListener, FocusListener {
     public void handle_operator(String op) {
         if (operand_1.equals("") || operand_1.equals("-") || operand_1.equals("+")) {
             if (!variant.equals("variant-a") && (op.equals("-") || op.equals("+"))) {
-                operand_1 = op;
+                operand_1 = op; // Change sign of operand_1
                 calc_label.setText(operand_1);
             }
-        } else if (operator.equals("")) {
+        } else if (operator.equals("")) { // Update current operator
             if (!op.equals("=")) {
                 operator = op;
                 calc_label.setText(operand_1 + " " + operator + " ");
             }
         } else if (operand_2.equals("")) {
-            if (variant.equals("variant-b") && (op.equals("-") || op.equals("+"))) {
+            if (variant.equals("variant-b") && (op.equals("-") || op.equals("+"))) { // Change sign of operand_2
                 operand_2 = op;
                 calc_label.setText(operand_1 + " " + operator + " " + operand_2);
-            } else if (!op.equals("=")) {
+            } else if (!op.equals("=")) { // Update current operator
                 operator = op;
                 calc_label.setText(operand_1 + " " + operator);
             }
-        } else if (operand_2.equals("-") || operand_2.equals("+")) {
+        } else if (operand_2.equals("-") || operand_2.equals("+")) { // Change sign of operand_2
             if (op.equals("-") || op.equals("+")) {
                 operand_2 = op;
                 calc_label.setText(operand_1 + " " + operator + " " + operand_2);
             }
         } else {
             if (op.equals("=")) {
-                // result
+                // Calculate result
                 int a = Integer.parseInt(operand_1);
                 int b = Integer.parseInt(operand_2);
                 float result = 0;
@@ -432,13 +452,15 @@ public class DifferentCalculator implements ActionListener, FocusListener {
                     }
                 }
 
-                calc_label.setText(result_str);
+                // Reset state of calculator
+                calc_label.setText(result_str); // Print result
                 operand_1 = "";
                 operand_2 = "";
                 operator = "";
             }
         }
 
+        // Focus number keys if function key was pressed in variant a
         if (!op.equals("=") && variant.equals("variant-a"))
             one.requestFocus();
 
