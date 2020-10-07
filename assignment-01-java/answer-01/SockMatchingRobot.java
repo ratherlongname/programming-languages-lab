@@ -148,9 +148,9 @@ class RobotArm extends Thread {
 }
 
 class MatchingMachine extends Thread {
-    Vector<Sock> matching_buffer;    // Pick socks from here
-    Vector<SockPair> shelf_manager_buffer;    // Put sock pairs here
-    SockPair matched_sock_pair = null;    // Sock pair currently picked up
+    Vector<Sock> matching_buffer; // Pick socks from here
+    Vector<SockPair> shelf_manager_buffer; // Put sock pairs here
+    SockPair matched_sock_pair = null; // Sock pair currently picked up
 
     MatchingMachine(Vector<Sock> matching_buffer, Vector<SockPair> shelf_manager_buffer) {
         this.matching_buffer = matching_buffer;
@@ -221,9 +221,9 @@ class MatchingMachine extends Thread {
 }
 
 class ShelfManager extends Thread {
-    Vector<SockPair> shelf_manager_buffer;    // Pick sock pair from here
-    HashMap<String, Vector<SockPair>> all_shelves;    // Put sock pairs here
-    SockPair picked_sock_pair = null;    // Sock pair currently in hand
+    Vector<SockPair> shelf_manager_buffer; // Pick sock pair from here
+    HashMap<String, Vector<SockPair>> all_shelves; // Put sock pairs here
+    SockPair picked_sock_pair = null; // Sock pair currently in hand
 
     ShelfManager(Vector<SockPair> shelf_manager_buffer, HashMap<String, Vector<SockPair>> all_shelves) {
         this.shelf_manager_buffer = shelf_manager_buffer;
@@ -262,8 +262,8 @@ class ShelfManager extends Thread {
             // Put sock pair in shelf
             all_shelves.get(picked_sock_pair.left_sock.colour).add(picked_sock_pair);
             System.out.println("(" + this.picked_sock_pair.left_sock.colour + "-"
-                    + this.picked_sock_pair.left_sock.unique_id + ", " + this.picked_sock_pair.right_sock.colour
-                    + "-" + this.picked_sock_pair.right_sock.unique_id + ") :\t " + getName() + " \t\t --> \t "
+                    + this.picked_sock_pair.left_sock.unique_id + ", " + this.picked_sock_pair.right_sock.colour + "-"
+                    + this.picked_sock_pair.right_sock.unique_id + ") :\t " + getName() + " \t\t --> \t "
                     + picked_sock_pair.left_sock.colour + " Shelf");
             picked_sock_pair = null;
         }
