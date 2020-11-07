@@ -12,3 +12,9 @@ make answer-02    # Run answer 02 in Prolog
 make answer-03    # Run answer 03 in Prolog
 make help    # Display help
 ```
+
+## Inputs for answer-02
+```prolog
+?- get_all_paths.
+?- valid([gate1,gate6,gate8,gate9,gate8,gate7,gate10,gate15,gate13,gate14,gate18,gate17]).
+```
