@@ -2,8 +2,8 @@
 ## Prerequisites
 Instructions for Ubuntu 20.04
 ```bash
-sudo apt-get install gprolog    # Install GNU Prolog compiler
-prolog --version    # Check if its installed
+sudo apt-get install swi-prolog    # Install SWI-Prolog
+prolog --version    # Check if it installed
 ```
 ## How to run
 ```bash
